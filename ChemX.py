@@ -71,6 +71,7 @@ class ChemX:
         return dist
 
     def get_similar_fragments(self, target_cpd,n=20):
+        
         score_frg= []
         for i in self.synthetic_frag_database:
             cur_frag_ds = [0 if math.isnan(x) else x for x in self.calc.CalcDescriptors(Chem.MolFromSmiles(i))]
@@ -88,12 +89,18 @@ class ChemX:
 
 
     def gather_fragments_4alltargetfragments(self):
+        
         self.all_replaceable_fragments = []
+        counter = 0
         for i in self.target_fragments:
+            print('Searching the database for replaceable chemical fragment ...' + str(counter+1))
             target_ds =  [0 if math.isnan(x) else x for x in self.calc.CalcDescriptors(Chem.MolFromSmiles(i))]
             self.all_replaceable_fragments.append(self.get_similar_fragments(target_ds,50))
+            counter+=1
+        print('Populating all the possible fragments for different parts of your target drug ...')
 
     def write_fragments_file_4Target(self,filename):
+        print('Writing to file all the possible fragments for replacement ...')
         header = ['fragment '+str(u+1) for u in range(len(self.target_fragments))]
         top_row = dict(zip(header, self.target_fragments))
         
@@ -132,14 +139,15 @@ class ChemX:
 
     def combine_frag(self):
         self.generate_frag_templates()
+        print('Merging fragments together to generate compounds...')
         for current_template in self.potential_cpd_templates:
             fragms = [Chem.MolFromSmiles(x) for x in sorted(current_template)]
             ms = BRICS.BRICSBuild(fragms)
-            prods = [next(ms) for x in range(20)]
+            prods = [next(ms) for x in range(10)]
             mini_frags = self.collect_mini_frags_from_each_template(current_template)
             percent = len(mini_frags)
             counter = 0
-            for i in range(20):
+            for i in range(10):
                 for j in range(len(mini_frags)):
                     sampler = Chem.MolToSmiles(prods[i],True)
                     if mini_frags[j] in sampler:
@@ -154,11 +162,15 @@ def main():
     #directory = 'G:/My Drive/NCSU/DiamondHacks/'
 
     mefloquine  = 'OC(C1CCCCN1)C1=CC(=NC2=C(C=CC=C12)C(F)(F)F)C(F)(F)F'
-
-    sample = ChemX(mefloquine,'mefloquine_analogues')
+    
+    print('Chemical accepted into the program.')
+    
+    
+    name = input('Name of your chemical library: ')
+    sample = ChemX(mefloquine,name)
     sample.fragment_target()
     sample.gather_fragments_4alltargetfragments()
-    sample.write_fragments_file_4Target('mefloquine')
+    sample.write_fragments_file_4Target(name)
     sample.combine_frag()
 
 
