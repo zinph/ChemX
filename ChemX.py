@@ -32,6 +32,7 @@ class ChemX:
 ##        self.frag_database = [self.fcat.GetEntryDescription(i) for i in range(self.fcat.GetNumEntries())]
         self.calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
         self.chembank = open('data/'+name,'a+')
+        self.templates = []
 
 
     def fragment_database(self):
@@ -143,18 +144,21 @@ class ChemX:
         for current_template in self.potential_cpd_templates:
             fragms = [Chem.MolFromSmiles(x) for x in sorted(current_template)]
             ms = BRICS.BRICSBuild(fragms)
-            prods = [next(ms) for x in range(10)]
-            mini_frags = self.collect_mini_frags_from_each_template(current_template)
-            percent = len(mini_frags)
-            counter = 0
-            for i in range(10):
-                for j in range(len(mini_frags)):
-                    sampler = Chem.MolToSmiles(prods[i],True)
-                    if mini_frags[j] in sampler:
-                        counter+=1
-                        if counter == percent:
-                            print(sampler)
-                            self.chembank.write(sampler+'\n')
+            prods = [next(ms) for x in range(1)]
+#            mini_frags = self.collect_mini_frags_from_each_template(current_template)
+#            percent = len(mini_frags)
+#            counter = 0
+            for i in range(1):
+#                for j in range(len(mini_frags)):
+                sampler = Chem.MolToSmiles(prods[i],True)
+#                    if mini_frags[j] in sampler:
+#                        counter+=1
+#                        if counter == percent:
+                              
+                if sampler not in self.templates:
+                    print(sampler)  
+                    self.templates.append(sampler)
+                    self.chembank.write(sampler+'\n')
 
 
 
