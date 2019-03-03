@@ -631,3 +631,6 @@ Cc1cc([C@H]2CCC[C@@H]2C)nc2c(C(O)c3cccc4c(C)cc([C@H]5CCC[C@@H]5C)nc34)cccc12
 Cc1cc(C(O)[C@H]2CCC[C@@H]2C)nc2c(-c3cc(C)c4cccc([C@H]5CCC[C@@H]5C)c4n3)cccc12
 Cc1cc(C(O)c2cc(C)c3cccc([C@H]4CCC[C@@H]4C)c3n2)nc2c([C@H]3CCC[C@@H]3C)cccc12
 Cc1cc(C(O)[C@H]2CCC[C@@H]2C)nc2c(C(O)[C@H]3CCC[C@@H]3C)cccc12
+Cc1cc(C(F)(F)F)nc2c([C@H]3CCCCO3)cccc12
+Cc1cc(C(O)c2cc(C)c3cccc([C@H]4CCCCO4)c3n2)nc2c(OC(F)F)cccc12
+Cc1cc(CC(F)F)nc2c([C@H]3CCCCO3)cccc12
