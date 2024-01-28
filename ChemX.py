@@ -28,7 +28,7 @@ class ChemX:
     def __init__(self, target_compound, name):
         self.target = target_compound
         self.calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
-        self.chembank = open('data/' + name, 'a+')
+        self.chembank = open('data/' + name + '.txt', 'a+')
         self.templates = []
 
         # Initialize the fragment database
